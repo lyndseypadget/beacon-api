@@ -186,7 +186,7 @@
           "beacons",
           "visits"
         ],
-        "summary": "Delete beacon by id",
+        "summary": "Delete all of a beacon's visits",
         "description": "",
         "operationId": "deleteBeaconById",
         "produces": [
@@ -349,7 +349,7 @@
           "users",
           "visits"
         ],
-        "summary": "Get all visits to a user",
+        "summary": "Get all of a user's visits",
         "description": "",
         "operationId": "getVisitedBeacons",
         "produces": [
@@ -386,7 +386,7 @@
           "users",
           "visits"
         ],
-        "summary": "Delete user by id",
+        "summary": "Delete all of a user's visits",
         "description": "",
         "operationId": "deleteUserById",
         "produces": [
