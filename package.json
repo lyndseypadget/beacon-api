@@ -1,6 +1,9 @@
 {
   "name": "beacon-api",
   "version": "0.0.1",
+  "repository": "https://bitbucket.org/lyndseypadget/beacon-api",
+  "author": "Lyndsey Padget",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
     "lodash": "^3.10.1",
