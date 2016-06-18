@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "Beacon API"
   },
-  "host": "hkcdc-beacon-api.herokuapp.com",
+  "host": "kcdc-beacon-api.herokuapp.com",
   "basePath": "",
   "tags": [
     {
