@@ -6,7 +6,7 @@
     "title": "Beacon API"
   },
   "host": "kcdc-beacon-api.herokuapp.com",
-  "basePath": "",
+  "basePath": "/",
   "tags": [
     {
       "name": "beacons"
