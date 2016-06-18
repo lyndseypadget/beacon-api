@@ -13,8 +13,9 @@ env('./.env');
 module.exports = app;
 
 /* Route Imports */
-var beacons = require('./routes/beacons');
 var apiController = require('./routes/apiController');
+var beacons = require('./routes/beacons');
+var users = require('./routes/users');
 
 var allowCORS = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -65,14 +66,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Authorized API Routes
-app.delete('/beacons/:id', auth, beacons.deleteBeaconById);
 app.post('/beacons', auth, beacons.createBeacon);
+app.post('/users', auth, users.createUser);
+app.delete('/users/:id/visits', auth, users.deleteAllBeaconVisits);
+app.delete('/users/:id/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
 
 // Unauthorized API Routes
 app.get('/info', apiController.getInfo);
 app.get('/docs', apiController.getDocs);
 app.get('/beacons', beacons.getAllBeacons);
 app.get('/beacons/:id', beacons.getBeaconById);
+app.get('/beacons/:id/visits', beacons.getAllBeaconVisits);
+app.get('/users/:id', users.getUserById);
+app.get('/users/:id/visits', users.getVisitedBeacons);
+app.get('/users/:id/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
 
 server.listen(process.env.PORT, function() {
   console.log('Server listening on port:' + this.address().port);

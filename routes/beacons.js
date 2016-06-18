@@ -29,3 +29,9 @@ exports.createBeacon = function(req, res) {
     res.header('Location', 'http://google.com');
     res.status(201).send();
 }
+
+exports.getAllBeaconVisits = function(req, res) {
+    //TODO
+    var results = [{}];
+    res.jsonp(results);
+}
