@@ -65,12 +65,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Authorized API Routes
-app.get('/docs', auth, apiController.getDocs);
 app.delete('/beacons/:id', auth, beacons.deleteBeaconById);
 app.post('/beacons', auth, beacons.createBeacon);
 
 // Unauthorized API Routes
 app.get('/info', apiController.getInfo);
+app.get('/docs', apiController.getDocs);
 app.get('/beacons', beacons.getAllBeacons);
 app.get('/beacons/:id', beacons.getBeaconById);
 
