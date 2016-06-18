@@ -67,6 +67,7 @@ app.use(bodyParser.json());
 
 // Authorized API Routes
 app.post('/beacons', auth, beacons.createBeacon);
+app.delete('/beacons/:id', auth, beacons.deleteBeaconById);
 app.post('/users', auth, users.createUser);
 app.delete('/users/:id/visits', auth, users.deleteAllBeaconVisits);
 app.delete('/users/:id/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
@@ -79,7 +80,7 @@ app.get('/beacons/:id', beacons.getBeaconById);
 app.get('/beacons/:id/visits', beacons.getAllBeaconVisits);
 app.get('/users/:id', users.getUserById);
 app.get('/users/:id/visits', users.getVisitedBeacons);
-app.get('/users/:id/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
+app.get('/users/:id/visits/:beaconMinorId', users.deleteVisitByBeaconId);
 
 server.listen(process.env.PORT, function() {
   console.log('Server listening on port:' + this.address().port);
