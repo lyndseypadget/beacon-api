@@ -3,10 +3,9 @@
   "info": {
     "description": "Documentation for the Beacon API",
     "version": "1.0.0",
-    "title": "Beacon API",
-    "author": "Lyndsey Padget"
+    "title": "Beacon API"
   },
-  "host": "https://kcdc-beacon-api.herokuapp.com",
+  "host": "hkcdc-beacon-api.herokuapp.com",
   "basePath": "",
   "tags": [
     {
