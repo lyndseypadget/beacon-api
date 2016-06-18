@@ -6,7 +6,7 @@
     "title": "Beacon API",
     "author": "Lyndsey Padget"
   },
-  "host": "beacon-api.com",
+  "host": "https://kcdc-beacon-api.herokuapp.com",
   "basePath": "",
   "tags": [
     {
