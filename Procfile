@@ -1,1 +1,1 @@
-web: node app.js
+web: touch .env | node app.js
