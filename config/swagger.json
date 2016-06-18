@@ -23,7 +23,7 @@
         ],
         "summary": "Create a beacon",
         "description": "",
-        "operationId": "",
+        "operationId": "createBeacon",
         "produces": [
           "application/json"
         ],
@@ -56,7 +56,7 @@
         ],
         "summary": "Get all beacons",
         "description": "",
-        "operationId": "",
+        "operationId": "getAllBeacons",
         "produces": [
           "application/json"
         ],
@@ -108,6 +108,408 @@
             "description": "Beacon not found"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "beacons"
+        ],
+        "summary": "Delete beacon by id",
+        "description": "",
+        "operationId": "deleteBeaconById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "beaconId",
+            "in": "path",
+            "description": "ID of beacon that needs to be deleted",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Beacon"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Beacon not found"
+          }
+        }
+      }
+    },
+    "/beacons/{beaconId}/visits": {
+      "get": {
+        "tags": [
+          "beacons"
+        ],
+        "summary": "Get all visits to a beacon",
+        "description": "",
+        "operationId": "getAllBeaconVisits",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "beaconId",
+            "in": "path",
+            "description": "ID of beacon whose visits you wish to see",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Beacon"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Beacon not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "beacons"
+        ],
+        "summary": "Delete beacon by id",
+        "description": "",
+        "operationId": "deleteBeaconById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "beaconId",
+            "in": "path",
+            "description": "ID of beacon that needs to be deleted",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Beacon"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Beacon not found"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user",
+        "description": "",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful creation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all users",
+        "description": "",
+        "operationId": "getAllUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "successful retrieval",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user by id",
+        "description": "",
+        "operationId": "getUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user that needs to be fetched",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user by id",
+        "description": "",
+        "operationId": "deleteUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user that needs to be deleted",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/{userId}/visits": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all visits to a user",
+        "description": "",
+        "operationId": "getVisitedBeacons",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user whose visits you wish to see",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user by id",
+        "description": "",
+        "operationId": "deleteUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user that needs to be deleted",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/{userId}/visits/{visitId}": {
+      "get": {
+        "tags": [
+          "visits",
+          "users"
+        ],
+        "summary": "Gets an instance of a particular visit",
+        "description": "",
+        "operationId": "getVisitByVisitId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to retrieve",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          },
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "ID of the visit to retrieve",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "visits",
+          "users"
+        ],
+        "summary": "Delete visit by visit id",
+        "description": "",
+        "operationId": "deleteVisitByVisitId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to retrieve",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          },
+          {
+            "name": "visitId",
+            "in": "path",
+            "description": "ID of the visit to be deleted",
+            "required": true,
+            "type": "string",
+            "maximum": 12,
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
       }
     }
   },
@@ -117,8 +519,9 @@
     "Beacon": {
       "type": "object",
       "properties": {
-        "minorId": {
-          "type": "string"
+        "beaconId": {
+          "type": "string",
+          "description": "also known as the minor id"
         },
         "majorId": {
           "type": "string"
@@ -132,6 +535,23 @@
       },
       "xml": {
         "name": "Beacon"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
       }
     }
   }

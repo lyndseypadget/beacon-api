@@ -67,20 +67,22 @@ app.use(bodyParser.json());
 
 // Authorized API Routes
 app.post('/beacons', auth, beacons.createBeacon);
-app.delete('/beacons/:id', auth, beacons.deleteBeaconById);
+app.delete('/beacons/:beaconId', auth, beacons.deleteBeaconById);
 app.post('/users', auth, users.createUser);
-app.delete('/users/:id/visits', auth, users.deleteAllBeaconVisits);
-app.delete('/users/:id/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
+app.delete('/users/:userId', auth, users.deleteUserById);
+app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
+app.delete('/users/:userId/visits/:visitId', auth, users.deleteVisitByVisitId);
 
 // Unauthorized API Routes
 app.get('/info', apiController.getInfo);
 app.get('/docs', apiController.getDocs);
 app.get('/beacons', beacons.getAllBeacons);
-app.get('/beacons/:id', beacons.getBeaconById);
-app.get('/beacons/:id/visits', beacons.getAllBeaconVisits);
-app.get('/users/:id', users.getUserById);
-app.get('/users/:id/visits', users.getVisitedBeacons);
-app.get('/users/:id/visits/:beaconMinorId', users.deleteVisitByBeaconId);
+app.get('/beacons/:beaconId', beacons.getBeaconById);
+app.get('/beacons/:beaconId/visits', beacons.getAllBeaconVisits);
+app.get('/users', users.getAllUsers);
+app.get('/users/:userId', users.getUserById);
+app.get('/users/:userId/visits', users.getVisitedBeacons);
+app.get('/users/:userId/visits/:visitId', users.getVisitByVisitId);
 
 server.listen(process.env.PORT, function() {
   console.log('Server listening on port:' + this.address().port);

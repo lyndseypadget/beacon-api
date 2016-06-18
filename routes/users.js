@@ -30,7 +30,23 @@ exports.deleteAllBeaconVisits = function(req, res) {
     res.status(200).send();
 }
 
-exports.deleteVisitByBeaconId = function(req, res) {
+exports.deleteVisitByVisitId = function(req, res) {
+    //TODO
+    res.status(200).send();
+}
+
+exports.getAllUsers = function(req, res) {
+    //TODO
+    var results = [{}];
+    res.jsonp(results);
+}
+
+exports.deleteUserById = function(req, res) {
+    //TODO
+    res.status(200).send();
+}
+
+exports.getVisitByVisitId = function(req, res) {
     //TODO
     res.status(200).send();
 }
