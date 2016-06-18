@@ -132,10 +132,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Beacon"
-            }
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -149,7 +146,8 @@
     "/beacons/{beaconId}/visits": {
       "get": {
         "tags": [
-          "beacons"
+          "beacons",
+          "visits"
         ],
         "summary": "Get all visits to a beacon",
         "description": "",
@@ -172,7 +170,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Beacon"
+              "$ref": "#/definitions/Visit"
             }
           },
           "400": {
@@ -185,7 +183,8 @@
       },
       "delete": {
         "tags": [
-          "beacons"
+          "beacons",
+          "visits"
         ],
         "summary": "Delete beacon by id",
         "description": "",
@@ -206,10 +205,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Beacon"
-            }
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -336,10 +332,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -353,7 +346,8 @@
     "/users/{userId}/visits": {
       "get": {
         "tags": [
-          "users"
+          "users",
+          "visits"
         ],
         "summary": "Get all visits to a user",
         "description": "",
@@ -376,7 +370,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Visit"
             }
           },
           "400": {
@@ -389,7 +383,8 @@
       },
       "delete": {
         "tags": [
-          "users"
+          "users",
+          "visits"
         ],
         "summary": "Delete user by id",
         "description": "",
@@ -410,10 +405,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid ID supplied"
