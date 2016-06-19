@@ -552,6 +552,9 @@
     "Visit": {
       "type": "object",
       "properties": {
+        "visitId": {
+          "type": "string",
+        },
         "beaconId": {
           "type": "string",
           "description": "also known as the minor id"
