@@ -553,7 +553,7 @@
       "type": "object",
       "properties": {
         "visitId": {
-          "type": "string",
+          "type": "string"
         },
         "beaconId": {
           "type": "string",
@@ -569,6 +569,6 @@
       "xml": {
         "name": "Visit"
       }
-    },
+    }
   }
 }
