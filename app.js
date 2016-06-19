@@ -13,9 +13,9 @@ env('./.env');
 module.exports = app;
 
 /* Route Imports */
-var apiController = require('./routes/apiController');
-var beacons = require('./routes/beacons');
-var users = require('./routes/users');
+var api = require('./routes/apiController');
+var beacons = require('./routes/beaconsController');
+var users = require('./routes/usersController');
 
 var allowCORS = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -74,8 +74,8 @@ app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
 app.delete('/users/:userId/visits/:visitId', auth, users.deleteVisitByVisitId);
 
 // Unauthorized API Routes
-app.get('/info', apiController.getInfo);
-app.get('/docs', apiController.getDocs);
+app.get('/info', api.getInfo);
+app.get('/docs', api.getDocs);
 app.get('/beacons', beacons.getAllBeacons);
 app.get('/beacons/:beaconId', beacons.getBeaconById);
 app.get('/beacons/:beaconId/visits', beacons.getAllBeaconVisits);
