@@ -1,5 +1,8 @@
+var env = require('node-env-file');
+var tedious = require('tedious');
+env('./.env');
 
-  var Connection = require('tedious').Connection;  
+var Connection = tedious.Connection;  
     var config = {
         userName: process.env.DB_CRED_USERNAME,
         password: process.env.DB_CRED_PASSWORD,
@@ -11,9 +14,10 @@
             hostNameInCertificate: '*.database.windows.net',
             loginTimeout:30
         }  
-    };  
-    var connection = new Connection(config);  
-    connection.on('connect', function(err) {  
-    // If no error, then good to proceed.  
-        console.log("Connected");  
+    };
+
+    var db = new Connection(config);  
+    db.on('connect', function(err) {
+        console.log("Connected to DB");
+        exports.db = db;
     });

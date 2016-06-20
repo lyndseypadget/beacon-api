@@ -1,5 +1,8 @@
 var _ = require('lodash-node');
 var async = require('async');
+var connection = require('../dbConnection');
+var tedious = require('tedious');
+var Request = require('tedious').Request;
 
 exports.getAllBeacons = function(req, res) {
     //TODO
@@ -23,7 +26,25 @@ exports.deleteBeaconById = function(req, res) {
 }
 
 exports.getBeaconById = function(req, res) {
-    //TODO
+    
+    console.log("req.params.id is ", req.params.id);
+
+    var request = new Request("select 1 from Beacon, '7002'", function(err, rowCount) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(rowCount + ' rows');
+      }
+    });
+
+    request.on('row', function(columns) {
+      columns.forEach(function(column) {
+        console.log(column.value);
+      });
+    });
+
+    connection.db.execSql(request);
+
     var item = {
         "beaconId":"1111",
         "majorId": "2222",
