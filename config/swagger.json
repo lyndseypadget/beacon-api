@@ -251,22 +251,24 @@
         }
       },
       "get": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Get all users",
-        "description": "",
-        "operationId": "getAllUsers",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-        ],
-        "responses": {
-          "200": {
-            "description": "successful retrieval",
-            "schema": {
-              "$ref": "#/definitions/User"
+        "post": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Get all users",
+          "description": "",
+          "operationId": "getAllUsers",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+          ],
+          "responses": {
+            "200": {
+              "description": "successful retrieval",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
             }
           }
         }
