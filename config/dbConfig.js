@@ -14,6 +14,7 @@ exports.config = {
 	    connectTimeout:15000,
 		requestTimeout:15000,
 		cancelTimeout:15000,
-		localAddress: process.env.IP_ADDRESS
+		localAddress: process.env.IP_ADDRESS,
+		rowCollectionOnRequestCompletion: true
 	}
 }

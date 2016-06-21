@@ -21,12 +21,6 @@ exports.getUserById = function(req, res) {
 }
 
 exports.createUser = function(req, res) {
-    //TODO
-    // res.header('Location', 'https://kcdc-beacon-api.herokuapp.com/users/5555');
-    // res.status(201).send();
-
-    console.log('got here 0');
-    
     var connection = new Connection(dbConfig); 
     connection.on('connect', function(err) {  
     

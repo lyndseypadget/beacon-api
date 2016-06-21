@@ -5,19 +5,63 @@ var Request = require('tedious').Request;
 var Connection = require('tedious').Connection;
 
 exports.getAllBeacons = function(req, res) {
-    //TODO
-    var results = [{
-        "beaconMinorId":"1111",
-        "majorId": "2222",
-        "UUID": "12345",
-        "Manufacturer": "ACME Corp"
-    },{
-        "beaconMinorId":"3333",
-        "majorId": "4444",
-        "UUID": "67890",
-        "Manufacturer": "Widgets Inc"
-    }];
-    res.jsonp(results);
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        var items = executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.Beacon";
+            
+            var request = new Request(sql, function(err, rowCount, rows) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              var items = [];
+              async.series([
+                  function(callback){
+                    rows.forEach(function (columns) {
+                        var item = {};
+                        columns.forEach(function(column) {
+                            item[column.metadata.colName] = column.value;
+                        });
+                        items.push(item);
+                    });
+
+                    callback(null);
+                  },
+                  function(callback){
+                      res.jsonp(items);
+                  }
+              ]);
+            });
+
+            connection.execSql(request);
+        }
+    });
+
+    // //TODO
+    // var results = [{
+    //     "beaconMinorId":"1111",
+    //     "majorId": "2222",
+    //     "UUID": "12345",
+    //     "Manufacturer": "ACME Corp"
+    // },{
+    //     "beaconMinorId":"3333",
+    //     "majorId": "4444",
+    //     "UUID": "67890",
+    //     "Manufacturer": "Widgets Inc"
+    // }];
+    // res.jsonp(results);
 }
 
 exports.deleteBeaconById = function(req, res) {
