@@ -7,12 +7,12 @@ var Connection = require('tedious').Connection;
 exports.getAllBeacons = function(req, res) {
     //TODO
     var results = [{
-        "beaconId":"1111",
+        "beaconMinorId":"1111",
         "majorId": "2222",
         "UUID": "12345",
         "Manufacturer": "ACME Corp"
     },{
-        "beaconId":"3333",
+        "beaconMinorId":"3333",
         "majorId": "4444",
         "UUID": "67890",
         "Manufacturer": "Widgets Inc"
@@ -27,8 +27,8 @@ exports.deleteBeaconById = function(req, res) {
 
 exports.getBeaconById = function(req, res) {
     
-    if(!req.params.beaconId) {
-        res.status(400).send('beaconId is required');
+    if(!req.params.beaconMinorId) {
+        res.status(400).send('beaconMinorId is required');
         return;
     }
 
@@ -44,7 +44,7 @@ exports.getBeaconById = function(req, res) {
 
         function queryBeacon() {
             
-            var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconId+"\'";
+            var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
             
             var request = new Request(sql, function(err, rowCount) {
               if (err) {
@@ -76,12 +76,12 @@ exports.getAllBeaconVisits = function(req, res) {
     //TODO
     var results = [{
         "visitId": "9876",
-        "beaconId": "1111",
+        "beaconMinorId": "1111",
         "userId": "6666",
         "timestamp": "2016-06-17T18:25:43.511Z" //iso 8601
     }, {
         "visitId": "5432",
-        "beaconId": "2222",
+        "beaconMinorId": "2222",
         "userId": "4444",
         "timestamp": "2016-06-17T20:25:43.511Z" //iso 8601
     }];

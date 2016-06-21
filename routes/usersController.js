@@ -27,12 +27,12 @@ exports.getVisitedBeacons = function(req, res) {
     //TODO
     var results = [{
         "visitId": "9876",
-        "beaconId": "1111",
+        "beaconMinorId": "1111",
         "userId": "6666",
         "timestamp": "2016-06-17T18:25:43.511Z" //iso 8601
     }, {
         "visitId": "5432",
-        "beaconId": "2222",
+        "beaconMinorId": "2222",
         "userId": "4444",
         "timestamp": "2016-06-17T20:25:43.511Z" //iso 8601
     }];
@@ -76,7 +76,7 @@ exports.deleteUserById = function(req, res) {
 exports.getVisitByVisitId = function(req, res) {
     var item = {
         "visitId": "9876",
-        "beaconId": "1111",
+        "beaconMinorId": "1111",
         "userId": "6666",
         "timestamp": "2012-04-23T18:25:43.511Z" //iso 8601
     };

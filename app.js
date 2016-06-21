@@ -67,7 +67,7 @@ app.use(bodyParser.json());
 
 // Authorized API Routes
 app.post('/beacons', auth, beacons.createBeacon);
-app.delete('/beacons/:beaconId', auth, beacons.deleteBeaconById);
+app.delete('/beacons/:beaconMinorId', auth, beacons.deleteBeaconById);
 app.post('/users', auth, users.createUser);
 app.delete('/users/:userId', auth, users.deleteUserById);
 app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
@@ -77,8 +77,8 @@ app.delete('/users/:userId/visits/:visitId', auth, users.deleteVisitByVisitId);
 app.get('/info', api.getInfo);
 app.get('/docs', api.getDocs);
 app.get('/beacons', beacons.getAllBeacons);
-app.get('/beacons/:beaconId', beacons.getBeaconById);
-app.get('/beacons/:beaconId/visits', beacons.getAllBeaconVisits);
+app.get('/beacons/:beaconMinorId', beacons.getBeaconById);
+app.get('/beacons/:beaconMinorId/visits', beacons.getAllBeaconVisits);
 app.get('/users', users.getAllUsers);
 app.get('/users/:userId', users.getUserById);
 app.get('/users/:userId/visits', users.getVisitedBeacons);
