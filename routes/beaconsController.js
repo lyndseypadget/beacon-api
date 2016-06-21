@@ -36,6 +36,7 @@ exports.getBeaconById = function(req, res) {
     connection.on('connect', function(err) {  
         
         if(err) {
+            console.log(err);
             res.status(500).send('DB connection failed');
             return;
         }
