@@ -134,8 +134,37 @@ exports.getVisitedBeacons = function(req, res) {
 }
 
 exports.deleteAllBeaconVisits = function(req, res) {
-    //TODO
-    res.status(200).send();
+    if(!req.params.userId) {
+        res.status(400).send('userId is required');
+        return;
+    }
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "delete from beaconhunt.dbo.VisitedBeacon where UserId=\'"+req.params.userId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount, rows) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              res.status(200).send();
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.deleteVisitByVisitId = function(req, res) {
