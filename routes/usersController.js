@@ -173,21 +173,49 @@ exports.deleteVisitByVisitId = function(req, res) {
 }
 
 exports.getAllUsers = function(req, res) {
-    //TODO
-    var results = [{
-        "userId": "4444",
-        "email": "jdoe1234@hotmail.com",
-        "name": "John Doe"
-    }, {
-        "userId": "5555",
-        "email": "whoever@hotmail.com",
-        "name": "Sally Smith"
-    }, {
-        "userId": "6666",
-        "email": "blahhh@yahoo.com",
-        "name": "Frank Wilson"
-    }];
-    res.jsonp(results);
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        var items = executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.AppUser";
+            
+            var request = new Request(sql, function(err, rowCount, rows) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              var items = [];
+              async.series([
+                  function(callback){
+                    rows.forEach(function (columns) {
+                        var item = {};
+                        columns.forEach(function(column) {
+                            item[column.metadata.colName] = column.value;
+                        });
+                        items.push(item);
+                    });
+
+                    callback(null);
+                  },
+                  function(callback){
+                      res.jsonp(items);
+                  }
+              ]);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.deleteUserById = function(req, res) {
