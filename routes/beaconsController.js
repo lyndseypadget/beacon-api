@@ -119,7 +119,7 @@ exports.createBeacon = function(req, res) {
             });
 
             request.on('row', function(columns) {
-                res.header('Location', process.env.BASE_URL+'beacons/'+columns[0].value);
+                res.header('Location', process.env.BASE_URL+'beacons/'+req.body.BeaconMinorId);
                 res.status(201).send();
             });
 
