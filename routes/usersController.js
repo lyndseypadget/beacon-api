@@ -275,18 +275,46 @@ exports.getAllUsers = function(req, res) {
     });
 }
 
-exports.getVisitByVisitId = function(req, res) {
-    var item = {
-        "visitId": "9876",
-        "beaconMinorId": "1111",
-        "userId": "6666",
-        "VisitedTimestamp": "2012-04-23T18:25:43.511Z" //iso 8601
-    };
+exports.getVisitByBeaconId = function(req, res) {
+    if(!req.params.userId || !req.params.beaconMinorId) {
+        res.status(400).send('userId and beaconMinorId are required');
+        return;
+    }
 
-    if(item) {
-        res.jsonp(item);
-    }
-    else {
-        res.status(404).send('User not found');
-    }
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.VisitedBeacon where UserId=\'"+req.params.userId+"\' and BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              if(rowCount === 0) {
+                res.jsonp([]);
+              }
+            });
+
+            request.on('row', function(columns) {
+              var item = {};
+              columns.forEach(function(column) {
+                item[column.metadata.colName] = column.value;
+              });
+              res.jsonp(item);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }

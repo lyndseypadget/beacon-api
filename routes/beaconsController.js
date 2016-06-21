@@ -111,6 +111,11 @@ exports.getBeaconById = function(req, res) {
                 res.status(500).send('Error executing statement');
                 return;
               }
+
+              if(rowCount === 0) {
+                res.jsonp([]);
+              }
+              
             });
 
             request.on('row', function(columns) {

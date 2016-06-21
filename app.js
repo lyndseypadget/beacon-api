@@ -81,7 +81,7 @@ app.get('/beacons/:beaconMinorId/visits', beacons.getAllBeaconVisits);
 app.get('/users', users.getAllUsers);
 app.get('/users/:userId', users.getUserById);
 app.get('/users/:userId/visits', users.getVisitedBeacons);
-app.get('/users/:userId/visits/:beaconMinorId', users.getVisitByVisitId);
+app.get('/users/:userId/visits/:beaconMinorId', users.getVisitByBeaconId);
 
 server.listen(process.env.PORT, function() {
   console.log('Server listening on port:' + this.address().port);
