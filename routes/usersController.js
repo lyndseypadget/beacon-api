@@ -5,19 +5,46 @@ var Request = require('tedious').Request;
 var Connection = require('tedious').Connection;
 
 exports.getUserById = function(req, res) {
-    //TODO
-    var item = {
-        "userId": "4444",
-        "email": "jdoe1234@hotmail.com",
-        "name": "John Doe"
-    };
+    
+    if(!req.params.userId) {
+        res.status(400).send('userId is required');
+        return;
+    }
 
-    if(item) {
-        res.jsonp(item);
-    }
-    else {
-        res.status(404).send('User not found');
-    }
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.AppUser where UserId=\'"+req.params.userId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+              var item = {};
+              columns.forEach(function(column) {
+                if(column.metadata.colName !== 'Password') {
+                    item[column.metadata.colName] = column.value;
+                }
+              });
+              res.jsonp(item);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.createUser = function(req, res) {
@@ -246,11 +273,6 @@ exports.getAllUsers = function(req, res) {
             connection.execSql(request);
         }
     });
-}
-
-exports.deleteUserById = function(req, res) {
-    //TODO
-    res.status(200).send();
 }
 
 exports.getVisitByVisitId = function(req, res) {

@@ -69,7 +69,6 @@ app.use(bodyParser.json());
 app.post('/beacons', auth, beacons.createBeacon);
 app.delete('/beacons/:beaconMinorId', auth, beacons.deleteBeaconById);
 app.post('/users', auth, users.createUser);
-app.delete('/users/:userId', auth, users.deleteUserById);
 app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
 app.delete('/users/:userId/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
 
