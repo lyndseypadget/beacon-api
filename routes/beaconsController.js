@@ -48,20 +48,6 @@ exports.getAllBeacons = function(req, res) {
             connection.execSql(request);
         }
     });
-
-    // //TODO
-    // var results = [{
-    //     "beaconMinorId":"1111",
-    //     "majorId": "2222",
-    //     "UUID": "12345",
-    //     "Manufacturer": "ACME Corp"
-    // },{
-    //     "beaconMinorId":"3333",
-    //     "majorId": "4444",
-    //     "UUID": "67890",
-    //     "Manufacturer": "Widgets Inc"
-    // }];
-    // res.jsonp(results);
 }
 
 exports.deleteBeaconById = function(req, res) {
@@ -173,22 +159,6 @@ exports.createBeacon = function(req, res) {
 }
 
 exports.getAllBeaconVisits = function(req, res) {
-    //TODO
-    var results = [{
-        "visitId": "9876",
-        "beaconMinorId": "1111",
-        "userId": "6666",
-        "VisitedTimestamp": "2016-06-17T18:25:43.511Z" //iso 8601
-    }, {
-        "visitId": "5432",
-        "beaconMinorId": "2222",
-        "userId": "4444",
-        "VisitedTimestamp": "2016-06-17T20:25:43.511Z" //iso 8601
-    }];
-    
-    res.jsonp(results);
-
-    
     if(!req.params.beaconMinorId) {
         res.status(400).send('beaconMinorId is required');
         return;
@@ -206,21 +176,31 @@ exports.getAllBeaconVisits = function(req, res) {
 
         function executeSQL() {
             
-            var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
+            var sql = "select * from beaconhunt.dbo.VisitedBeacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
             
-            var request = new Request(sql, function(err, rowCount) {
+            var request = new Request(sql, function(err, rowCount, rows) {
               if (err) {
                 res.status(500).send('Error executing statement');
                 return;
               }
-            });
 
-            request.on('row', function(columns) {
-              var item = {};
-              columns.forEach(function(column) {
-                item[column.metadata.colName] = column.value;
-              });
-              res.jsonp(item);
+              var items = [];
+              async.series([
+                  function(callback){
+                    rows.forEach(function (columns) {
+                        var item = {};
+                        columns.forEach(function(column) {
+                            item[column.metadata.colName] = column.value;
+                        });
+                        items.push(item);
+                    });
+
+                    callback(null);
+                  },
+                  function(callback){
+                      res.jsonp(items);
+                  }
+              ]);
             });
 
             connection.execSql(request);
