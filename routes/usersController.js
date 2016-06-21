@@ -84,20 +84,53 @@ exports.createUser = function(req, res) {
 }
 
 exports.getVisitedBeacons = function(req, res) {
-    //TODO
-    var results = [{
-        "visitId": "9876",
-        "beaconMinorId": "1111",
-        "userId": "6666",
-        "VisitedTimestamp": "2016-06-17T18:25:43.511Z" //iso 8601
-    }, {
-        "visitId": "5432",
-        "beaconMinorId": "2222",
-        "userId": "4444",
-        "VisitedTimestamp": "2016-06-17T20:25:43.511Z" //iso 8601
-    }];
+    if(!req.params.userId) {
+        res.status(400).send('userId is required');
+        return;
+    }
 
-    res.jsonp(results);
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.VisitedBeacon where UserId=\'"+req.params.userId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount, rows) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              var items = [];
+              async.series([
+                  function(callback){
+                    rows.forEach(function (columns) {
+                        var item = {};
+                        columns.forEach(function(column) {
+                            item[column.metadata.colName] = column.value;
+                        });
+                        items.push(item);
+                    });
+
+                    callback(null);
+                  },
+                  function(callback){
+                      res.jsonp(items);
+                  }
+              ]);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.deleteAllBeaconVisits = function(req, res) {
