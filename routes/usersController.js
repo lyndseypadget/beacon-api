@@ -1,5 +1,8 @@
 var _ = require('lodash-node');
 var async = require('async');
+var dbConfig = require('./../config/dbConfig').config;
+var Request = require('tedious').Request;
+var Connection = require('tedious').Connection;
 
 exports.getUserById = function(req, res) {
     //TODO
@@ -19,8 +22,71 @@ exports.getUserById = function(req, res) {
 
 exports.createUser = function(req, res) {
     //TODO
-    res.header('Location', 'https://kcdc-beacon-api.herokuapp.com/users/5555');
-    res.status(201).send();
+    // res.header('Location', 'https://kcdc-beacon-api.herokuapp.com/users/5555');
+    // res.status(201).send();
+
+    console.log('got here 0');
+    
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+    
+        if(!req.body.Name || !req.body.Email) {
+            res.status(400).send('Body is incomplete');
+            return;
+        }
+
+        // function executeSQLQuery() {
+
+        //     var sql = "select * from beaconhunt.dbo.AppUser where Name=\'"+req.body.Name+"\' and Email=\'"+req.body.Email+"\'";
+            
+        //     var request = new Request(sql, function(err, rowCount) {
+        //       if (err) {
+        //         res.status(500).send('Error executing statement');
+        //         return;
+        //       }
+        //     });
+
+        //     request.on('row', function(columns) {
+        //       console.log('user exists!')
+        //     });
+
+        //     connection.execSql(request);
+        // }
+
+        executeSQLInsert();
+
+        function executeSQLInsert() {
+
+            var newKey = makeKey();
+            var sql = "INSERT into beaconhunt.dbo.AppUser (Name, Email, Password) values (\'"+req.body.Name+"\', \'"+req.body.Email+"\', \'"+newKey+"\'); select @@identity";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+                res.header('Location', process.env.BASE_URL+'users/'+columns[0].value);
+                res.jsonp({key: newKey});
+                res.status(201).send();
+            });
+
+            connection.execSql(request);
+        }
+
+        function makeKey()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+    });
 }
 
 exports.getVisitedBeacons = function(req, res) {

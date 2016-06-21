@@ -35,9 +35,9 @@ exports.deleteBeaconById = function(req, res) {
             return;
         }
 
-        deleteBeacon();
+        executeSQL();
 
-        function deleteBeacon() {
+        function executeSQL() {
             
             var sql = "delete from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
             
@@ -70,9 +70,9 @@ exports.getBeaconById = function(req, res) {
             return;
         }
 
-        queryBeacon();
+        executeSQL();
 
-        function queryBeacon() {
+        function executeSQL() {
             
             var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
             
@@ -105,9 +105,9 @@ exports.createBeacon = function(req, res) {
             return;
         }
 
-        createBeacon();
+        executeSQL();
 
-        function createBeacon() {
+        function executeSQL() {
             
             var sql = "INSERT into beaconhunt.dbo.Beacon values (\'"+req.body.BeaconMinorId+"\', \'"+req.body.BeaconMajorId+"\', \'"+req.body.UUID+"\', \'"+req.body.Manufacturer+"\'); select @@identity";
             
@@ -158,9 +158,9 @@ exports.getAllBeaconVisits = function(req, res) {
             return;
         }
 
-        queryBeacon();
+        executeSQL();
 
-        function queryBeacon() {
+        function executeSQL() {
             
             var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
             
