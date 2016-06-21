@@ -10,6 +10,9 @@ exports.config = {
 	    database: process.env.DB_CONN_NAME,
 	    trustServerCertificate: false,
 	    hostNameInCertificate: '*.database.windows.net',
-	    loginTimeout:30
+	    loginTimeout:30,
+	    connectTimeout:15000,
+		requestTimeout:15000,
+		cancelTimeout:15000
 	}
 }
