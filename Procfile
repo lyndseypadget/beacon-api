@@ -1,1 +1,1 @@
-web: touch .env | node app.js
+web: touch .env | bin/proximo node app.js
