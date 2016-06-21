@@ -13,6 +13,7 @@ exports.config = {
 	    loginTimeout:30,
 	    connectTimeout:15000,
 		requestTimeout:15000,
-		cancelTimeout:15000
+		cancelTimeout:15000,
+		localAddress: process.env.IP_ADDRESS
 	}
 }
