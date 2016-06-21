@@ -1,8 +1,8 @@
 var _ = require('lodash-node');
 var async = require('async');
-var connection = require('../dbConnection');
-var tedious = require('tedious');
+var dbConfig = require('./../config/dbConfig').config;
 var Request = require('tedious').Request;
+var Connection = require('tedious').Connection;
 
 exports.getAllBeacons = function(req, res) {
     //TODO
@@ -27,37 +27,43 @@ exports.deleteBeaconById = function(req, res) {
 
 exports.getBeaconById = function(req, res) {
     
-    console.log("req.params.id is ", req.params.id);
-
-    var request = new Request("select 1 from Beacon, '7002'", function(err, rowCount) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(rowCount + ' rows');
-      }
-    });
-
-    request.on('row', function(columns) {
-      columns.forEach(function(column) {
-        console.log(column.value);
-      });
-    });
-
-    connection.db.execSql(request);
-
-    var item = {
-        "beaconId":"1111",
-        "majorId": "2222",
-        "UUID": "12345",
-        "Manufacturer": "ACME corp"
-    };
-
-    if(item) {
-        res.jsonp(item);
+    if(!req.params.beaconId) {
+        res.status(400).send('beaconId is required');
+        return;
     }
-    else {
-        res.status(404).send('Beacon not found');
-    }
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        queryBeacon();
+
+        function queryBeacon() {
+            
+            var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+              var item = {};
+              columns.forEach(function(column) {
+                item[column.metadata.colName] = column.value;
+              });
+              res.jsonp(item);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.createBeacon = function(req, res) {
