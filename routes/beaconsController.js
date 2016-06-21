@@ -21,8 +21,38 @@ exports.getAllBeacons = function(req, res) {
 }
 
 exports.deleteBeaconById = function(req, res) {
-    //TODO
-    res.status(200).send();
+
+    if(!req.params.beaconMinorId) {
+        res.status(400).send('beaconMinorId is required');
+        return;
+    }
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        deleteBeacon();
+
+        function deleteBeacon() {
+            
+            var sql = "delete from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              res.status(200).send();
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.getBeaconById = function(req, res) {
@@ -36,7 +66,6 @@ exports.getBeaconById = function(req, res) {
     connection.on('connect', function(err) {  
         
         if(err) {
-            console.log(err);
             res.status(500).send('DB connection failed');
             return;
         }
@@ -68,9 +97,35 @@ exports.getBeaconById = function(req, res) {
 }
 
 exports.createBeacon = function(req, res) {
-    //TODO
-    res.header('Location', 'https://kcdc-beacon-api.herokuapp.com/beacons/2222');
-    res.status(201).send();
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+    
+        if(!req.body.BeaconMinorId || !req.body.BeaconMajorId || !req.body.UUID || !req.body.Manufacturer) {
+            res.status(400).send('Body is incomplete');
+            return;
+        }
+
+        createBeacon();
+
+        function createBeacon() {
+            
+            var sql = "INSERT into beaconhunt.dbo.Beacon values (\'"+req.body.BeaconMinorId+"\', \'"+req.body.BeaconMajorId+"\', \'"+req.body.UUID+"\', \'"+req.body.Manufacturer+"\'); select @@identity";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+                res.header('Location', process.env.BASE_URL+'beacons/'+columns[0].value);
+                res.status(201).send();
+            });
+
+            connection.execSql(request);
+        }
+    });
 }
 
 exports.getAllBeaconVisits = function(req, res) {
@@ -79,13 +134,52 @@ exports.getAllBeaconVisits = function(req, res) {
         "visitId": "9876",
         "beaconMinorId": "1111",
         "userId": "6666",
-        "timestamp": "2016-06-17T18:25:43.511Z" //iso 8601
+        "VisitedTimestamp": "2016-06-17T18:25:43.511Z" //iso 8601
     }, {
         "visitId": "5432",
         "beaconMinorId": "2222",
         "userId": "4444",
-        "timestamp": "2016-06-17T20:25:43.511Z" //iso 8601
+        "VisitedTimestamp": "2016-06-17T20:25:43.511Z" //iso 8601
     }];
     
     res.jsonp(results);
+
+    
+    if(!req.params.beaconMinorId) {
+        res.status(400).send('beaconMinorId is required');
+        return;
+    }
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        queryBeacon();
+
+        function queryBeacon() {
+            
+            var sql = "select * from beaconhunt.dbo.Beacon where BeaconMinorId=\'"+req.params.beaconMinorId+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+              var item = {};
+              columns.forEach(function(column) {
+                item[column.metadata.colName] = column.value;
+              });
+              res.jsonp(item);
+            });
+
+            connection.execSql(request);
+        }
+    });
 }

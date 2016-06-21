@@ -514,11 +514,11 @@
     "Beacon": {
       "type": "object",
       "properties": {
-        "beaconMinorId": {
+        "BeaconMinorId": {
           "type": "string",
           "description": "also known as the minor id"
         },
-        "majorId": {
+        "BeaconMajorId": {
           "type": "string"
         },
         "UUID": {
@@ -552,17 +552,14 @@
     "Visit": {
       "type": "object",
       "properties": {
-        "visitId": {
-          "type": "string"
-        },
-        "beaconMinorId": {
+        "BeaconMinorId": {
           "type": "string",
           "description": "also known as the minor id"
         },
-        "userId": {
+        "UserId": {
           "type": "string"
         },
-        "timestamp": {
+        "VisitedTimestamp": {
           "type": "string"
         }
       },

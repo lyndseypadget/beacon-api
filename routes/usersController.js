@@ -29,12 +29,12 @@ exports.getVisitedBeacons = function(req, res) {
         "visitId": "9876",
         "beaconMinorId": "1111",
         "userId": "6666",
-        "timestamp": "2016-06-17T18:25:43.511Z" //iso 8601
+        "VisitedTimestamp": "2016-06-17T18:25:43.511Z" //iso 8601
     }, {
         "visitId": "5432",
         "beaconMinorId": "2222",
         "userId": "4444",
-        "timestamp": "2016-06-17T20:25:43.511Z" //iso 8601
+        "VisitedTimestamp": "2016-06-17T20:25:43.511Z" //iso 8601
     }];
 
     res.jsonp(results);
@@ -78,7 +78,7 @@ exports.getVisitByVisitId = function(req, res) {
         "visitId": "9876",
         "beaconMinorId": "1111",
         "userId": "6666",
-        "timestamp": "2012-04-23T18:25:43.511Z" //iso 8601
+        "VisitedTimestamp": "2012-04-23T18:25:43.511Z" //iso 8601
     };
 
     if(item) {
