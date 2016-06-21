@@ -124,7 +124,7 @@ exports.createUser = function(req, res) {
             });
 
             request.on('row', function(columns) {
-              res.header('Location', process.env.BASE_URL+'users/'+columns[0].value);
+              // res.header('Location', process.env.BASE_URL+'users/'+columns[0].value);
               res.jsonp({key: newKey});
               res.status(201).send();
             });

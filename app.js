@@ -72,7 +72,6 @@ app.post('/users', auth, users.createUser);
 app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
 app.delete('/users/:userId/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
 app.post('/users/:userId/visits', auth, users.createVisitToBeacon);
-app.post('/users/login', auth, users.login);
 
 // Unauthorized API Routes
 app.get('/info', api.getInfo);
@@ -84,6 +83,7 @@ app.get('/users', users.getAllUsers);
 app.get('/users/:userId', users.getUserById);
 app.get('/users/:userId/visits', users.getVisitedBeacons);
 app.get('/users/:userId/visits/:beaconMinorId', users.getVisitByBeaconId);
+app.post('/users/login', users.login);
 
 server.listen(process.env.PORT, function() {
   console.log('Server listening on port:' + this.address().port);
