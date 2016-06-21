@@ -71,6 +71,7 @@ app.delete('/beacons/:beaconMinorId', auth, beacons.deleteBeaconById);
 app.post('/users', auth, users.createUser);
 app.delete('/users/:userId/visits', auth, users.deleteAllBeaconVisits);
 app.delete('/users/:userId/visits/:beaconMinorId', auth, users.deleteVisitByBeaconId);
+app.post('/users/:userId/visits', auth, users.createVisitToBeacon);
 
 // Unauthorized API Routes
 app.get('/info', api.getInfo);

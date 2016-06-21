@@ -113,9 +113,10 @@ exports.getBeaconById = function(req, res) {
               }
 
               if(rowCount === 0) {
-                res.jsonp([]);
+                res.status(404).send();
+                return;
               }
-              
+
             });
 
             request.on('row', function(columns) {
@@ -124,6 +125,7 @@ exports.getBeaconById = function(req, res) {
                 item[column.metadata.colName] = column.value;
               });
               res.jsonp(item);
+              return;
             });
 
             connection.execSql(request);
