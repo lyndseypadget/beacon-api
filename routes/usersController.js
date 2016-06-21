@@ -4,6 +4,55 @@ var dbConfig = require('./../config/dbConfig').config;
 var Request = require('tedious').Request;
 var Connection = require('tedious').Connection;
 
+exports.login = function(req, res) {
+    
+    if(!req.body.Email || !req.body.Key) {
+        res.status(400).send('Body is incomplete');
+        return;
+    }
+
+    var connection = new Connection(dbConfig); 
+    connection.on('connect', function(err) {  
+        
+        if(err) {
+            res.status(500).send('DB connection failed');
+            return;
+        }
+
+        executeSQL();
+
+        function executeSQL() {
+            
+            var sql = "select * from beaconhunt.dbo.AppUser where Email=\'"+req.body.Email+"\' and Password=\'"+req.body.Key+"\'";
+            
+            var request = new Request(sql, function(err, rowCount) {
+              if (err) {
+                res.status(500).send('Error executing statement');
+                return;
+              }
+
+              if(rowCount === 0) {
+                res.status(401).send('Login failed');
+                return;
+              }
+            });
+
+            request.on('row', function(columns) {
+              var item = {};
+              columns.forEach(function(column) {
+                if(column.metadata.colName !== 'Password' && column.metadata.colName !== 'Email') {
+                    item[column.metadata.colName] = column.value;
+                }
+              });
+              res.jsonp(item);
+              return;
+            });
+
+            connection.execSql(request);
+        }
+    });
+}
+
 exports.getUserById = function(req, res) {
     
     if(!req.params.userId) {
@@ -40,7 +89,7 @@ exports.getUserById = function(req, res) {
             request.on('row', function(columns) {
               var item = {};
               columns.forEach(function(column) {
-                if(column.metadata.colName !== 'Password') {
+                if(column.metadata.colName !== 'Password' && column.metadata.colName !== 'Email') {
                     item[column.metadata.colName] = column.value;
                 }
               });
@@ -96,7 +145,7 @@ exports.createUser = function(req, res) {
 
             request.on('row', function(columns) {
                 res.header('Location', process.env.BASE_URL+'users/'+columns[0].value);
-                res.jsonp({key: newKey});
+                res.jsonp({Key: newKey});
                 res.status(201).send();
                 return;
             });
@@ -223,7 +272,6 @@ exports.deleteVisitByBeaconId = function(req, res) {
             
             var request = new Request(sql, function(err, rowCount, rows) {
               if (err) {
-                console.log(err);
                 res.status(500).send('Error executing statement');
                 return;
               }
@@ -264,8 +312,11 @@ exports.getAllUsers = function(req, res) {
                     rows.forEach(function (columns) {
                         var item = {};
                         columns.forEach(function(column) {
-                            item[column.metadata.colName] = column.value;
+                            if(column.metadata.colName !== 'Password' && column.metadata.colName !== 'Email') {
+                                item[column.metadata.colName] = column.value;
+                            }
                         });
+
                         items.push(item);
                     });
 
