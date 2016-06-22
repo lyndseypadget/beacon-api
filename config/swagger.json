@@ -440,6 +440,39 @@
             "description": "User not found"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a visit to a beacon",
+        "description": "AUTHORIZED",
+        "operationId": "createVisitToBeacon",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful creation.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
       }
     },
     "/users/{userId}/visits/{beaconMinorId}": {
