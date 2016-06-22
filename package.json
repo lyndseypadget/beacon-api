@@ -13,6 +13,7 @@
     "line-by-line": "0.1.4",
     "async": "1.4.2",
     "request": "2.65.0",
-    "tedious": "1.14.0"
+    "tedious": "1.14.0",
+    "azure": "0.10.6"
   }
 }
